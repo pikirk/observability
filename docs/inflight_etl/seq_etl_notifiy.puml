@@ -1,0 +1,28 @@
+@startuml
+    skinparam defaultFontName Courier New
+    title Health Notification Sequence Diagram
+    autonumber
+    actor CRON
+    CRON -> notify_lambda: scan
+    database configDB as DBC
+    notify_lambda -> DBC: fetch scan window
+    alt scan window active
+        notify_lambda -> DBC: fetch entities
+        loop for-each entity
+            notify_lambda -> DBC: fetch entity notify policy
+            database healthDB as DBH
+            notify_lambda -> DBH: fetch entity health
+            notify_lambda -> notify_policy: evaluate
+            alt unhealthy entity && notify
+                database notificationDB as DBN
+                notify_lambda -> DBN: record notification state
+                notify_lambda -> sns_topic: post unhealthy entity message
+            else recovered entity
+                notify_lambda -> DBN: reset notify state
+                notify_lambda -> sns_topic: post recovered entity message
+            end
+        end
+    else
+        notify_lambda -> CRON: done
+    end
+@enduml

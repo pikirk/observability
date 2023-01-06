@@ -1,0 +1,27 @@
+@startuml
+    skinparam defaultFontName Courier New
+    title Health Scoring Sequence Diagram
+    autonumber
+    actor CRON
+    CRON -> scoring_lambda: scan
+    database configDB as DBC
+    scoring_lambda -> DBC: fetch scan window
+    alt scan window active
+        scoring_lambda -> DBC: fetch entities
+        loop for-each entity
+            scoring_lambda -> entity: get Z score health threshold
+            database healthDB as DBH
+            scoring_lambda -> DBH: fetch last entity score
+            scoring_lambda -> entity: score health
+            alt unhealthy
+                scoring_lambda -> DBH: increment unhealthy counter
+                scoring_lambda -> DBH: mark entity unhealthy
+            else healthy
+                scoring_lambda -> DBH: reset unhealthy counter
+                scoring_lambda -> DBH: mark entity healthy
+            end
+        end
+    else scan window expired
+        scoring_lambda -> CRON: done
+    end
+@enduml

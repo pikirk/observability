@@ -1,0 +1,21 @@
+@startuml
+    skinparam defaultFontName Courier New
+    title Health Scanner Sequence Diagram
+    autonumber
+    actor CRON
+    CRON -> health_lambda: scan
+    database configDB as DBC
+    health_lambda -> DBC: fetch scan window
+    health_lambda -> DBC: fetch entities
+    alt scan window active
+        loop for-each entity
+            health_lambda -> entity: build request
+            health_lambda -> redshift_api: search entity events
+            health_lambda -> health_lambda: process response
+            database healthDB as DBH
+            health_lambda -> DBH: record entity metric(s)
+        end
+    else scan window expired
+        health_lambda -> CRON: done
+    end
+@enduml
