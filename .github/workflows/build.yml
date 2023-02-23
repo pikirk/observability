@@ -9,12 +9,14 @@ jobs:
         uses: actions/checkout@v3
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
-      - run: terraform version
       - name: Setup Workspace
-        run: terraform init
-        run: terraform workspace new prod
-        run: terraform workspace select prod
-        run: terraform workspace list
+        run: |
+          terraform version
+          terraform init
+          terraform workspace new prod
+          terraform workspace select prod
+          terraform workspace list
       - name: Lint
-        run: cd ${{ github.workspace }}
-        run: terraform fmt --recursive
+        run: |
+          cd ${{ github.workspace }}
+          terraform fmt --recursive
