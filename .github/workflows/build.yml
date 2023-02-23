@@ -10,6 +10,5 @@ jobs:
       - run: terraform version
       - run: terraform init
       - run: terraform workspace new prod
-      - run: terraform workspace new prod
       - run: terraform workspace select prod
       - run: terraform workspace list
