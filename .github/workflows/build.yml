@@ -18,6 +18,7 @@ jobs:
       
       - name: Check Lint Result
         if: ${{ failure() }}
+        run: |
           echo "Terraform formatting check failed"
           exit 1
 
