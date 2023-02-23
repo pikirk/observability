@@ -12,13 +12,14 @@ jobs:
         uses: hashicorp/setup-terraform@v2
 
       - name: Lint
-        run: |
-          cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
-          terraform fmt --recursive
-      
+        uses: dflook/terraform-fmt-check@v1
+        id: tf-lint-result
+        with:
+          path: ${{ github.workspace }}/terraform/stacks/
+
       - name: Check Lint Result
-        if: ${{ failure() }}
-        run: |
+        if: ${{ failure() && steps.tf-lint-result.outputs.failure-reason == 'check-failed' }}
+        run: | 
           echo "Terraform formatting check failed"
           exit 1
 

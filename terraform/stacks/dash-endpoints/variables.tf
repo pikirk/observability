@@ -1,5 +1,5 @@
 variable "api_golden_signals" {
-  type       = map(any)
+  type        = map(any)
   description = "Describes golden signals configuration for endpoints supporting laundry dash "
 }
 variable "nr_account_id" {
