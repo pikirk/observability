@@ -19,7 +19,7 @@ jobs:
 
       - name: Check Lint Result
         if: ${{ failure() && steps.tf-lint-result.outputs.failure-reason == 'check-failed' }}
-        run | 
+        run: | 
           echo "Terraform formatting check failed"
           return 1      
 
@@ -30,6 +30,7 @@ jobs:
           terraform workspace new prod
           terraform workspace select prod
           terraform workspace list
+
       - name: Lint
         run: |
           cd ${{ github.workspace }}
