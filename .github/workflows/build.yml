@@ -31,7 +31,15 @@ jobs:
           terraform workspace select prod
           terraform workspace list
 
-      - name: Lint
+      - name: Terraform Plan
+        id: tf-plan-result
         run: |
-          cd ${{ github.workspace }}
-          terraform fmt --recursive
+          cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
+          terraform plan -var-file=./configurations/prod.tfvars -out=${{ github.workspace }}/launrdy-dash.tfplan
+
+      - name: Check Plan Result
+        if: ${{ failure() }}
+        run: | 
+          echo "Terraform plan failed"
+          exit 1 
+
