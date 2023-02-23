@@ -2,7 +2,7 @@ name: obserability-dashboard-newrelic
 run-name: Dashboard build - ${{ github.actor }}
 on: [push]
 jobs:
-  Build dashboard:
+  build-dashboard:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -13,4 +13,3 @@ jobs:
       - run: terraform workspace new prod
       - run: terraform workspace select prod
       - run: terraform workspace list
-      
