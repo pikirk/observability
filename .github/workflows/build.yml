@@ -1,13 +1,9 @@
-name: learn-github-actions
-run-name: ${{ github.actor }} is learning GitHub Actions
+name: obserability-dashboard-newrelic
+run-name: Dashboard build - ${{ github.actor }}
 on: [push]
 jobs:
-  check-bats-version:
+  terraform:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '14'
-      - run: npm install -g bats
-      - run: bats -v
+      - uses: hashicorp/setup-terraform@v2
