@@ -12,3 +12,5 @@ jobs:
       - run: terraform workspace new prod
       - run: terraform workspace select prod
       - run: terraform workspace list
+      - run: cd ${{ github.workspace }}
+      - run: terraform fmt --recursive
