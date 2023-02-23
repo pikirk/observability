@@ -5,12 +5,16 @@ jobs:
   build-dashboard:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: hashicorp/setup-terraform@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
       - run: terraform version
-      - run: terraform init
-      - run: terraform workspace new prod
-      - run: terraform workspace select prod
-      - run: terraform workspace list
-      - run: cd ${{ github.workspace }}
-      - run: terraform fmt --recursive
+      - name: Setup Workspace
+        run: terraform init
+        run: terraform workspace new prod
+        run: terraform workspace select prod
+        run: terraform workspace list
+      - name: Lint
+        run: cd ${{ github.workspace }}
+        run: terraform fmt --recursive
