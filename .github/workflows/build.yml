@@ -23,7 +23,7 @@ jobs:
       #    echo "Terraform formatting check failed"
       #    exit 1
 
-      -name: Lint
+      - name: Lint
         run: |
           cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
           terraform fmt --recursive
