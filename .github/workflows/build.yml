@@ -21,7 +21,7 @@ jobs:
         if: ${{ failure() && steps.tf-lint-result.outputs.failure-reason == 'check-failed' }}
         run: | 
           echo "Terraform formatting check failed"
-          return 1      
+          exit 1      
 
       - name: Setup Terraform Workspace
         run: |
