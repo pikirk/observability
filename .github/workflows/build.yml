@@ -15,7 +15,7 @@ jobs:
         uses: dflook/terraform-fmt-check@v1
         id: tf-lint-result
         with:
-          path: ${{ github.workspace }}
+          path: ${{ github.workspace }}/terraform/stacks/
 
       - name: Check Lint Result
         if: ${{ failure() && steps.tf-lint-result.outputs.failure-reason == 'check-failed' }}
@@ -25,6 +25,7 @@ jobs:
 
       - name: Setup Terraform Workspace
         run: |
+          cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
           terraform version
           terraform init
           terraform workspace new prod
