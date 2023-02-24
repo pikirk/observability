@@ -49,7 +49,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: laundry-dash-official
-          path: launrdy_dash_official.tfplan
+          path: ${{ github.workspace }}/terraform/stacks/dash-endpoints/${{ env.ARTIFACT_NAME }}
 
       - name: Deploy | Download Artifacts
         if: ${{ github.ref == 'refs/heads/main' }}
