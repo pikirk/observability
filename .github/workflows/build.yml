@@ -62,7 +62,7 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           cd ${{ github.workspace }}
-          terraform apply ${{ env.ARTIFACT_NAME }}
+          terraform apply ${{ github.workspace }}/${{ env.ARTIFACT_NAME }}
           exit $? 
     env:
       ARTIFACT_NAME: laundry_dash_official.tfplan
