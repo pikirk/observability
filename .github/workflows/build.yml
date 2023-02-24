@@ -17,6 +17,7 @@ jobs:
         run: |
           echo "local=${{ github.sha }}"
           echo "local=$SHA"
+          echo "artifact=$ARTIFACT_NAME"
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
