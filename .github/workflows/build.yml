@@ -1,7 +1,7 @@
 name: obserability-dashboard-newrelic
 run-name: Dashboard build - ${{ github.actor }}
 on: [push]
- 
+
 jobs:
   build-dashboard:
     runs-on: ubuntu-latest
@@ -50,7 +50,9 @@ jobs:
           exit 1 
 
       - name: Push Artifacts
+        if: ${{ $env.GITHUB_REF == 'main' }}
         uses: actions/upload-artifact@v3
         with:
           name: laundry-dash.tfplan
           path: ${{ github.workspace }}/launrdy-dash.tfplan
+
