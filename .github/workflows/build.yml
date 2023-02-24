@@ -1,6 +1,10 @@
 name: obserability-dashboard-newrelic
 run-name: Dashboard build - ${{ github.actor }}
 on: [push]
+env:
+  TF_VAR_TF_NR_ACCOUNT: {{ secrets.TF_NR_ACCOUNT }}
+  TF_VAR_TF_NR_API_KEY: "{{ secrets.TF_NR_API_KEY }}"
+ 
 jobs:
   build-dashboard:
     runs-on: ubuntu-latest
@@ -33,15 +37,11 @@ jobs:
           terraform workspace list
 
       - name: Terraform Plan
-        env:
-          TF_NR_ACCOUNT: {{ secrets.TF_NR_ACCOUNT }}
-          TF_NR_API_KEY: {{ secrets.TF_NR_API_KEY }}
         id: tf-plan-result
         run: |
           cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
           terraform plan \
             -var-file=./configurations/prod.tfvars \
-            -var 'nr_account_id=$env.TF_NR_ACCOUNT' -var 'nr_api_key=$env.TF_NR_API_KEY' \
             -out=${{ github.workspace }}/launrdy-dash.tfplan
 
       - name: Check Plan Result
