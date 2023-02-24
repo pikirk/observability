@@ -28,6 +28,7 @@ jobs:
         run: |
           echo "local=$SHA_LOCAL"
           echo "local=${{ github.sha }}"
+          echo "local=${{ env.SHA }}"
         env:
           SHA_LOCAL: ${{ env.SHA }}
 
