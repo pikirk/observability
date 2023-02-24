@@ -5,6 +5,7 @@ on: [push]
 env:
   SHA: ${{ github.sha }}
   ARTIFACT_NAME: ${{ github.sha }}-laundry_dash_official.tfplan
+  TEST: ""
 
 jobs:
   build-dashboard:
@@ -18,6 +19,8 @@ jobs:
           echo "local=${{ github.sha }}"
           echo "local=$SHA"
           echo "artifact=$ARTIFACT_NAME"
+          echo "NOW=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
+          export TEST='foobar'
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
@@ -36,6 +39,8 @@ jobs:
 
       - name: Setup Terraform Workspace
         run: |
+          echo $TEST
+
           cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
           terraform version
           terraform init
