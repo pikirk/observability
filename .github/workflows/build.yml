@@ -39,9 +39,10 @@ jobs:
           terraform plan \
             -var-file=./configurations/prod.tfvars \
             -out=${{ github.workspace }}/launrdy-dash.tfplan
+          echo $TF_VAR_TF_NR_ACCOUNT
         env:
           TF_VAR_TF_NR_ACCOUNT: ${{ secrets.TF_NR_ACCOUNT }}
-          TF_VAR_TF_NR_API_KEY: "abcd"
+          TF_VAR_TF_NR_API_KEY: ${{ secrets.TF_NR_API_KEY }}
 
       - name: Check Plan Result
         if: ${{ failure() }}
