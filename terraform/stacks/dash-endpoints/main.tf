@@ -5,7 +5,7 @@ resource "newrelic_one_dashboard" "dash_api_prod" {
 
     // billboards
     dynamic "widget_billboard" {
-      for_each = local.XXXXapi_signals
+      for_each = local.api_signals
       content {
         title    = "${widget_billboard.value.endpoint_name} (${widget_billboard.value.metric})"
         row      = widget_billboard.value.row // odd rows for billboards
