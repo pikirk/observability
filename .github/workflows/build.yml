@@ -40,7 +40,7 @@ jobs:
             -var-file=./configurations/prod.tfvars \
             -out=${{ github.workspace }}/launrdy-dash.tfplan
         env:
-          TF_VAR_TF_NR_ACCOUNT: 1234
+          TF_VAR_TF_NR_ACCOUNT: ${{ secrets.TF_NR_ACCOUNT }}
           TF_VAR_TF_NR_API_KEY: "abcd"
 
       - name: Check Plan Result
