@@ -56,7 +56,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: laundry-dash-official
-          path: ${{ github.workspace }}/${{ env.ARTIFACT_NAME }}
+          path: ${{ github.workspace }}
 
       - name: Deploy
         if: ${{ github.ref == 'refs/heads/main' }}
