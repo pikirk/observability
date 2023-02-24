@@ -34,10 +34,9 @@ jobs:
           terraform workspace list
 
       - name: Terraform Plan
-        secrets:
-          TF_VAR_TF_NR_ACCOUNT: {{ secrets.TF_NR_ACCOUNT }}
-          TF_VAR_TF_NR_API_KEY: {{ secrets.TF_NR_API_KEY }}
-        id: tf-plan-result
+        env:
+          TF_NR_ACCOUNT: {{ secrets.TF_NR_ACCOUNT }}
+          TF_NR_API_KEY: {{ secrets.TF_NR_API_KEY }}
         run: |
           cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
           terraform plan \
