@@ -38,7 +38,7 @@ jobs:
           cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
           terraform plan \
             -var-file=./configurations/prod.tfvars \
-            -out=launrdy_dash_official.tfplan
+            -out=${{ env.ARTIFACT_NAME }}
           exit $?
         env:
           TF_VAR_TF_NR_ACCOUNT: ${{ secrets.TF_NR_ACCOUNT }}
@@ -49,20 +49,20 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: laundry-dash-official
-          path: launrdy_dash.tfplan
+          path: launrdy_dash_official.tfplan
 
       - name: Deploy | Download Artifacts
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: actions/download-artifact@v3
         with:
           name: laundry-dash-official
-          path: ${{ github.workspace }}/laundry_dash_official.tfplan
+          path: ${{ github.workspace }}/${{ env.ARTIFACT_NAME }}
 
       - name: Deploy
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           cd ${{ github.workspace }}
-          terraform apply laundry_dash_official.tfplan
+          terraform apply ${{ env.ARTIFACT_NAME }}
           exit $? 
     env:
       ARTIFACT_NAME: laundry_dash_official.tfplan
