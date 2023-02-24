@@ -63,4 +63,4 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           terraform apply laundry-dash-deploy.tfplan
-          exit $?
+          exit $? 
