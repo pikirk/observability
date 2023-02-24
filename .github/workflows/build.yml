@@ -75,11 +75,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: laundry-dash-official
-          path: .
+          path: ${{ github.workspace }}/terraform/stacks/dash-endpoints/
 
       - name: Deploy
         run: |
-          terraform apply ${{ github.workspace }}/deploy/${{ env.ARTIFACT_NAME }}
+          cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
+          terraform apply ${{ env.ARTIFACT_NAME }}
           exit $?
    
     env:
