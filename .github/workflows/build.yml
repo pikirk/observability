@@ -44,12 +44,6 @@ jobs:
           TF_VAR_TF_NR_ACCOUNT: ${{ secrets.TF_NR_ACCOUNT }}
           TF_VAR_TF_NR_API_KEY: ${{ secrets.TF_NR_API_KEY }}
 
-      - name: Check Plan Result
-        if: ${{ failure() }}
-        run: | 
-          echo "Terraform plan failed"
-          exit 1 
-
       - name: Push Artifacts
         if: github.ref == 'main'
         uses: actions/upload-artifact@v3
