@@ -53,6 +53,7 @@ jobs:
 
   deploy-dashboard:
     if: ${{ github.ref == 'refs/heads/main' }}
+    needs: build-dashboard
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
