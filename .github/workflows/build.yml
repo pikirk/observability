@@ -39,7 +39,6 @@ jobs:
           terraform plan \
             -var-file=./configurations/prod.tfvars \
             -out=${{ github.workspace }}/launrdy-dash.tfplan
-          echo $TF_VAR_TF_NR_ACCOUNT
         env:
           TF_VAR_TF_NR_ACCOUNT: ${{ secrets.TF_NR_ACCOUNT }}
           TF_VAR_TF_NR_API_KEY: ${{ secrets.TF_NR_API_KEY }}
@@ -50,3 +49,8 @@ jobs:
           echo "Terraform plan failed"
           exit 1 
 
+      - name: Push Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: laundry-dash.tfplan
+          path: ${{ github.workspace }}/launrdy-dash.tfplan
