@@ -56,13 +56,16 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: laundry-dash-official
-          path: ${{ github.workspace }}
+          path: ${{ github.workspace }}/deploy/
 
       - name: Deploy
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
-          cd ${{ github.workspace }}
-          terraform apply ${{ github.workspace }}/${{ env.ARTIFACT_NAME }}
+          cd ${{ github.workspace }}/deploy/
+          terraform init
+          terraform workspace new prod
+          terraform workspace select prod
+          terraform apply ${{ github.workspace }}/deploy/${{ env.ARTIFACT_NAME }}
           exit $? 
     env:
       ARTIFACT_NAME: laundry_dash_official.tfplan
