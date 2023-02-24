@@ -1,13 +1,14 @@
 name: obserability-dashboard-newrelic
 run-name: Dashboard build - ${{ github.actor }}
 on: [push]
-env:
-  TF_VAR_TF_NR_ACCOUNT: {{ secrets.TF_NR_ACCOUNT }}
-  TF_VAR_TF_NR_API_KEY: "{{ secrets.TF_NR_API_KEY }}"
  
 jobs:
   build-dashboard:
     runs-on: ubuntu-latest
+    env:
+      TF_VAR_TF_NR_ACCOUNT: {{ secrets.TF_NR_ACCOUNT }}
+      TF_VAR_TF_NR_API_KEY: "{{ secrets.TF_NR_API_KEY }}"
+      
     steps:
       - name: Checkout
         uses: actions/checkout@v3
