@@ -51,21 +51,36 @@ jobs:
           name: laundry-dash-official
           path: ${{ github.workspace }}/terraform/stacks/dash-endpoints/${{ env.ARTIFACT_NAME }}
 
-      - name: Deploy | Download Artifacts
-        if: ${{ github.ref == 'refs/heads/main' }}
-        uses: actions/download-artifact@v3
-        with:
-          name: laundry-dash-official
-          path: ${{ github.workspace }}/deploy/
+  deploy-dashboard:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on:
+      runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Deploy
-        if: ${{ github.ref == 'refs/heads/main' }}
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2  
+
+      - name: Setup Terraform Workspace
         run: |
-          cd ${{ github.workspace }}/deploy/
+          cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
+          terraform version
           terraform init
           terraform workspace new prod
           terraform workspace select prod
+          terraform workspace list
+
+        - name: Download Artifacts
+          uses: actions/download-artifact@v3
+          with:
+            name: laundry-dash-official
+            path: .
+
+      - name: Deploy
+        run: |
           terraform apply ${{ github.workspace }}/deploy/${{ env.ARTIFACT_NAME }}
-          exit $? 
+          exit $?
+   
     env:
       ARTIFACT_NAME: laundry_dash_official.tfplan
