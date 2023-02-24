@@ -26,9 +26,9 @@ jobs:
       
       - name: Build Metadata
         run: |
-          echo "SHORT_SHA=$SHORT_SHA_LOCAL"
+          echo "SHA=$SHA_LOCAL"
         env:
-          SHORT_SHA_LOCAL: ${{ env.SHORT_SHA }}
+          SHA_LOCAL: ${{ env.SHA }}
 
       - name: Setup Terraform Workspace
         run: |
@@ -90,5 +90,5 @@ jobs:
           exit $?
    
     env:
-      SHORT_SHA: ${{ github.workflow_sha }}
+      SHA: ${{ github.sha }}
       ARTIFACT_NAME: laundry_dash_official.tfplan
