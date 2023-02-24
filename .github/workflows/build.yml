@@ -39,6 +39,7 @@ jobs:
           terraform plan \
             -var-file=./configurations/prod.tfvars \
             -out=launrdy-dash.tfplan
+          exit $?
         env:
           TF_VAR_TF_NR_ACCOUNT: ${{ secrets.TF_NR_ACCOUNT }}
           TF_VAR_TF_NR_API_KEY: ${{ secrets.TF_NR_API_KEY }}
