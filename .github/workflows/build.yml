@@ -38,7 +38,7 @@ jobs:
           cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
           terraform plan \
             -var-file=./configurations/prod.tfvars \
-            -var nr_account_id='{{ secrets.TF_NR_ACCOUNT }}' -var nr_api_key='{{ secrets.TF_NR_API_KEY }}' \
+            -var nr_account_id="{{ secrets.TF_NR_ACCOUNT }}" -var nr_api_key="{{ secrets.TF_NR_API_KEY }}" \
             -out=${{ github.workspace }}/launrdy-dash.tfplan
 
       - name: Check Plan Result
