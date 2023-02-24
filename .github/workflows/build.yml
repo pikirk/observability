@@ -71,11 +71,11 @@ jobs:
           terraform workspace select prod
           terraform workspace list
 
-        - name: Download Artifacts
-          uses: actions/download-artifact@v3
-          with:
-            name: laundry-dash-official
-            path: .
+      - name: Download Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: laundry-dash-official
+          path: .
 
       - name: Deploy
         run: |
