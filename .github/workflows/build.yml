@@ -90,5 +90,5 @@ jobs:
           exit $?
    
     env:
-      SHORT_SHA: ${{ git rev-parse --short HEAD }}
+      SHORT_SHA: ${{ github.workflow_sha }}
       ARTIFACT_NAME: laundry_dash_official.tfplan
