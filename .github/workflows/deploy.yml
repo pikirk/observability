@@ -1,2 +1,0 @@
-name: obserability-dashboard-newrelic
-run-name: Dashboard deploy - ${{ github.actor }}
