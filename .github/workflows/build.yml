@@ -56,12 +56,15 @@ jobs:
           name: laundry-dash.tfplan
           path: ${{ github.workspace }}/launrdy-dash-deploy.tfplan
 
-      - name: Deploy
+      - name: Deploy | Download Artifacts
         if: github.ref == 'main'
         uses: actions/download-artifact@v3
         with:
           name: laundry-dash.tfplan
-          path: ${{ github.workspace }}
+          path: ${{ github.workspace }}/laundry-dash-deploy.tfplan
+
+      -name: Deploy
+        if: github.ref == 'main'
         run: |
           cd ${{ github.workspace }}
           terraform apply laundry-dash-deploy.tfplan
