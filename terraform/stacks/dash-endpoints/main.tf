@@ -10,7 +10,7 @@ resource "newrelic_one_dashboard" "dash_api_prod" {
         title    = "${widget_billboard.value.endpoint_name} (${widget_billboard.value.metric})"
         row      = widget_billboard.value.row // odd rows for billboards
         column   = widget_billboard.value.col
-        width    = local.xwidget_width
+        width    = local.widget_width
         height   = local.widget_height
         warning  = widget_billboard.value.warn
         critical = widget_billboard.value.error
