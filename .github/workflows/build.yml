@@ -4,7 +4,7 @@ on: [push]
    
 env:
   SHA: ${{ github.sha }}
-  ARTIFACT_NAME: laundry_dash_official.tfplan
+  ARTIFACT_NAME: ${{ $SHA }}-laundry_dash_official.tfplan
 
 jobs:
   build-dashboard:
