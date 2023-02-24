@@ -16,7 +16,7 @@ jobs:
       - name: Build Metadata
         run: |
           echo "local=${{ github.sha }}"
-          echo "local=${{ $SHA }}"
+          echo "local=$SHA"
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
