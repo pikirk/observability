@@ -26,7 +26,8 @@ jobs:
       
       - name: Build Metadata
         run: |
-          echo "SHA=$SHA_LOCAL"
+          echo "local=$SHA_LOCAL"
+          echo "local=${{ github.sha }}"
         env:
           SHA_LOCAL: ${{ env.SHA }}
 
