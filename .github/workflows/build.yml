@@ -63,7 +63,7 @@ jobs:
           name: laundry-dash.tfplan
           path: ${{ github.workspace }}/laundry-dash-deploy.tfplan
 
-      -name: Deploy
+      - name: Deploy
         if: github.ref == 'main'
         run: |
           cd ${{ github.workspace }}
