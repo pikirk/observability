@@ -50,7 +50,7 @@ jobs:
           exit 1 
 
       - name: Push Artifacts
-        if: ${{ $env.GITHUB_REF == 'main' }}
+        if: github.ref == 'main'
         uses: actions/upload-artifact@v3
         with:
           name: laundry-dash.tfplan
