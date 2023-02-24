@@ -8,7 +8,6 @@ jobs:
     env:
       TF_VAR_TF_NR_ACCOUNT: {{ secrets.TF_NR_ACCOUNT }}
       TF_VAR_TF_NR_API_KEY: "{{ secrets.TF_NR_API_KEY }}"
-      
     steps:
       - name: Checkout
         uses: actions/checkout@v3
