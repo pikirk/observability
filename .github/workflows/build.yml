@@ -28,7 +28,7 @@ jobs:
         run: |
           echo "SHORT_SHA=$SHORT_SHA_LOCAL"
         env:
-          SHORT_SHA_LOCAL: {{ env.SHORT_SHA }}
+          SHORT_SHA_LOCAL: ${{ env.SHORT_SHA }}
 
       - name: Setup Terraform Workspace
         run: |
