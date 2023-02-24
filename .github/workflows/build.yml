@@ -1,0 +1,66 @@
+name: obserability-dashboard-newrelic
+run-name: Dashboard build - ${{ github.actor }}
+on: [push]
+
+jobs:
+  build-dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Lint
+        uses: dflook/terraform-fmt-check@v1
+        id: tf-lint-result
+        with:
+          path: ${{ github.workspace }}/terraform/stacks/
+
+      - name: Check Lint Result
+        if: ${{ failure() && steps.tf-lint-result.outputs.failure-reason == 'check-failed' }}
+        run: | 
+          echo "Terraform formatting check failed"
+          exit 1
+
+      - name: Setup Terraform Workspace
+        run: |
+          cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
+          terraform version
+          terraform init
+          terraform workspace new prod
+          terraform workspace select prod
+          terraform workspace list
+
+      - name: Terraform Plan
+        run: |
+          cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
+          terraform plan \
+            -var-file=./configurations/prod.tfvars \
+            -out=launrdy-dash.tfplan
+          exit $?
+        env:
+          TF_VAR_TF_NR_ACCOUNT: ${{ secrets.TF_NR_ACCOUNT }}
+          TF_VAR_TF_NR_API_KEY: ${{ secrets.TF_NR_API_KEY }}
+
+      - name: Push Artifacts
+        if: github.ref == 'main'
+        uses: actions/upload-artifact@v3
+        with:
+          name: laundry-dash.tfplan
+          path: ${{ github.workspace }}/launrdy-dash-deploy.tfplan
+
+      - name: Deploy | Download Artifacts
+        if: github.ref == 'main'
+        uses: actions/download-artifact@v3
+        with:
+          name: laundry-dash.tfplan
+          path: ${{ github.workspace }}/laundry-dash-deploy.tfplan
+
+      - name: Deploy
+        if: github.ref == 'main'
+        run: |
+          cd ${{ github.workspace }}
+          terraform apply laundry-dash-deploy.tfplan
+          exit $? 

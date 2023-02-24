@@ -1,3 +1,6 @@
+nr_account_id = 0
+nr_api_key    = "NRAK-"
+
 api_golden_signals = {
   order_api = [
     {
@@ -38,7 +41,7 @@ api_golden_signals = {
       "thresh_warn"   = "0.85",
       "thresh_error"  = "0.75"
       "nrql_bill"     = "select apdex(duration, t: 5) as `apdex(5s)` from Transaction where appName = 'laundry-dash-order-prod' since 3 hours ago",
-      "nrql_trend"   = "select apdex(duration, t: 5) as `apdex(5s)` from Transaction where appName = 'laundry-dash-order-prod' since 3 hours ago compare with 1 day ago timeseries auto"
+      "nrql_trend"    = "select apdex(duration, t: 5) as `apdex(5s)` from Transaction where appName = 'laundry-dash-order-prod' since 3 hours ago compare with 1 day ago timeseries auto"
     }
   ],
   pickup_api = [
@@ -80,7 +83,7 @@ api_golden_signals = {
       "thresh_warn"   = "0.85",
       "thresh_error"  = "0.75"
       "nrql_bill"     = "select apdex(duration, t: 5) as `apdex(5s)` from Transaction where appName = 'laundry-dash-pickup-prod' since 3 hours ago",
-      "nrql_trend"   = "select apdex(duration, t: 5) as `apdex(5s)` from Transaction where appName = 'laundry-dash-pickup-prod' since 3 hours ago compare with 1 day ago timeseries auto"
+      "nrql_trend"    = "select apdex(duration, t: 5) as `apdex(5s)` from Transaction where appName = 'laundry-dash-pickup-prod' since 3 hours ago compare with 1 day ago timeseries auto"
     }
   ],
   deliver_api = [
@@ -122,7 +125,7 @@ api_golden_signals = {
       "thresh_warn"   = "0.85",
       "thresh_error"  = "0.75"
       "nrql_bill"     = "select apdex(duration, t: 5) as `apdex(5s)` from Transaction where appName = 'laundry-dash-pickup-prod' since 3 hours ago",
-      "nrql_trend"   = "select apdex(duration, t: 5) as `apdex(5s)` from Transaction where appName = 'laundry-dash-pickup-prod' since 3 hours ago compare with 1 day ago timeseries auto"
+      "nrql_trend"    = "select apdex(duration, t: 5) as `apdex(5s)` from Transaction where appName = 'laundry-dash-pickup-prod' since 3 hours ago compare with 1 day ago timeseries auto"
     }
   ]
 }
