@@ -53,10 +53,10 @@ jobs:
       - name: Terraform Plan
         run: |
           cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
-          echo "Plan name is '{{ env.PUBLISHED_ARTIFACT_NAME }}"
+          echo "Plan name is '${{ env.PUBLISHED_ARTIFACT_NAME }}"
           terraform plan \
             -var-file=./configurations/prod.tfvars \
-            -out={{ env.PUBLISHED_ARTIFACT_NAME }}
+            -out=${{ env.PUBLISHED_ARTIFACT_NAME }}
           exit $?
         env:
           TF_VAR_TF_NR_ACCOUNT: ${{ secrets.TF_NR_ACCOUNT }}
