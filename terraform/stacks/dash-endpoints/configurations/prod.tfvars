@@ -1,6 +1,3 @@
-nr_account_id = 0
-nr_api_key    = "NRAK-"
-
 api_golden_signals = {
   order_api = [
     {

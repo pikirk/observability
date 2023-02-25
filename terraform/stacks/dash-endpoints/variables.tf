@@ -5,8 +5,15 @@ variable "api_golden_signals" {
 variable "nr_account_id" {
   type        = number
   description = "New Relic account identifier"
+  default     = 0
 }
 variable "nr_api_key" {
   type        = string
   description = "New relic insights api key"
+  default     = ""
+}
+variable "nr_dash_build_version" {
+  type        = string
+  description = "Our dashboard build_version"
+  default     = ""
 }

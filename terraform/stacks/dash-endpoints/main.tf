@@ -38,3 +38,18 @@ resource "newrelic_one_dashboard" "dash_api_prod" {
     }
   } // page
 }
+
+# tag the version
+data "newrelic_entity" "dashboard" {
+  name   = "Laundry Dash Monitoring (PROD)"
+  type   = "DASHBOARD"
+  domain = "APM"
+}
+
+resource "newrelic_entity_tags" "version" {
+  guid = data.newrelic_entity.dashboard.guid
+  tag {
+    key    = "BUILD_VERSION"
+    values = [var.dash_build_version]
+  }
+}

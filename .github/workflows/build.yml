@@ -7,6 +7,7 @@ env:
   NOW: ''
   SHORT_SHA: ''
   PUBLISHED_ARTIFACT_NAME: ''
+  BUILD_VERSION: ${{ env.NOW }}-${{ env.SHORT_SHA }}
 
 jobs:
   build-dashboard:
@@ -24,7 +25,7 @@ jobs:
       - name: Set Artifact Name
         run: |
           artifact='laundary_dash.tfplan'
-          echo "PUBLISHED_ARTIFACT_NAME=$(echo ${{ env.NOW }}-${{ env.SHORT_SHA }}_$artifact)" >> $GITHUB_ENV   
+          echo "PUBLISHED_ARTIFACT_NAME=$(echo ${{ env.BUILD_VERSION }}_$artifact)" >> $GITHUB_ENV   
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
@@ -58,6 +59,7 @@ jobs:
             -var-file=./configurations/prod.tfvars \
             -var 'nr_account_id=${{ secrets.TF_NR_ACCOUNT }}' \
             -var 'nr_api_key=${{ secrets.TF_NR_API_KEY }}' \
+            -var 'nr_dash_build_version=${{ env.BUILD_VERSION }}'
             -out=${{ env.PUBLISHED_ARTIFACT_NAME }}
           exit $?
 
