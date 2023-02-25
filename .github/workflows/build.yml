@@ -91,7 +91,7 @@ jobs:
 
       - name: Prepare Download
         run: |
-          echo "Download artifact us '$PUBLISHED_ARTIFACT_NAME'"
+          echo "Download artifact is '${{ env.PUBLISHED_ARTIFACT_NAME }}'"
 
       - name: Download Artifacts
         uses: actions/download-artifact@v3
