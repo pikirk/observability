@@ -52,6 +52,10 @@ jobs:
 
       - name: Terraform Plan
         run: |
+          s=$TF_VAR_TF_NR_API_KEY
+          n=${#s}
+          echo "API Key length is $n"
+
           cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
           echo "Plan name is '${{ env.PUBLISHED_ARTIFACT_NAME }}"
           terraform plan \
