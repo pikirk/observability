@@ -20,7 +20,7 @@ jobs:
           echo "local=$SHA"
           echo "artifact=$ARTIFACT_NAME"
           echo "NOW=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
-          export TEST='foobar'
+          echo "TEST='foobar' >> $GITHUB_ENV
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
@@ -39,7 +39,8 @@ jobs:
 
       - name: Setup Terraform Workspace
         run: |
-          echo $TEST
+          echo "TEST=$TEST"
+          echo "NOW=$NOW"
 
           cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
           terraform version
