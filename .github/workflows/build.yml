@@ -102,8 +102,12 @@ jobs:
       - name: Deploy
         run: |
           cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
+          pwd
           ls -lauHF
+
           cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/${{ env.PUBLISHED_ARTIFACT_NAME }}/
+          pwd
           ls -lauHF
+
           # terraform apply ${{ env.PUBLISHED_ARTIFACT_NAME }}
           exit $?
