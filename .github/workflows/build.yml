@@ -20,7 +20,7 @@ jobs:
           echo "local=$SHA"
           echo "artifact=$ARTIFACT_NAME"
           echo "NOW=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
-          echo "TEST='foobar' >> $GITHUB_ENV
+          echo "TEST=foobar" >> $GITHUB_ENV
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
