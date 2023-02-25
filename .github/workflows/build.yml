@@ -18,10 +18,13 @@ jobs:
       - name: Set Build Metadata
         run: |
           sha=${{ github.sha }}
-          artifact='laundary_dash.tfplan'
           echo "NOW=$(date +'%Y%m%d%H%M%S%3N')" >> $GITHUB_ENV
           echo "SHORT_SHA=$(echo $sha | cut -c 1-7)" >> $GITHUB_ENV
-          echo "PUBLISHED_ARTIFACT_NAME=$(echo $NOW-$SHORT_SHA_$artifact)" >> $GITHUB_ENV
+
+      - name: Set Artifact Name
+        run: |
+          artifact='laundary_dash.tfplan'
+          echo "PUBLISHED_ARTIFACT_NAME=$(echo ${{ env.NOW }}-{{ env.SHORT_SHA }}_$artifact)" >> $GITHUB_ENV   
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
@@ -50,10 +53,10 @@ jobs:
       - name: Terraform Plan
         run: |
           cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
-          echo "Publish artifact name is '$PUBLISHED_ARTIFACT_NAME'"
+          echo "Plan name is '{{ env.PUBLISHED_ARTIFACT_NAME }}"
           terraform plan \
             -var-file=./configurations/prod.tfvars \
-            -out=$PUBLISHED_ARTIFACT_NAME
+            -out={{ env.PUBLISHED_ARTIFACT_NAME }}
           exit $?
         env:
           TF_VAR_TF_NR_ACCOUNT: ${{ secrets.TF_NR_ACCOUNT }}
@@ -63,7 +66,7 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.NOW }}-${{ env.SHORT_SHA }}-laundry-dash
+          name: ${{ env.PUBLISHED_ARTIFACT_NAME }}
           path: ${{ github.workspace }}/terraform/stacks/dash-endpoints/${{ env.PUBLISHED_ARTIFACT_NAME }}
 
   deploy-dashboard:
@@ -93,12 +96,12 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v3
         with:
-          name: ${{ env.NOW }}-${{ env.SHORT_SHA }}-laundry-dash
+          name: ${{ env.PUBLISHED_ARTIFACT_NAME }}
           path: ${{ github.workspace }}/terraform/stacks/dash-endpoints/
 
       - name: Deploy
         run: |
           ls -1
           cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
-          terraform apply $PUBLISHED_ARTIFACT_NAME
+          terraform apply ${{ env.PUBLISHED_ARTIFACT_NAME }}
           exit $?
