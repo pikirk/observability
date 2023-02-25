@@ -1,11 +1,12 @@
-name: obserability-dashboard-newrelic
+name: observability-dashboard-newrelic
 run-name: Dashboard build - ${{ github.actor }}
 on: [push]
-   
+
+# values set in Set Build Metadata step   
 env:
-  SHA: ${{ github.sha }}
-  ARTIFACT_NAME: ${{ github.sha }}-laundry_dash_official.tfplan
-  TEST: ""
+  NOW: ''
+  SHORT_SHA: ''
+  PUBLISHED_ARTIFACT_NAME: ''
 
 jobs:
   build-dashboard:
@@ -14,13 +15,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
   
-      - name: Build Metadata
+      - name: Set Build Metadata
         run: |
-          echo "local=${{ github.sha }}"
-          echo "local=$SHA"
-          echo "artifact=$ARTIFACT_NAME"
-          echo "NOW=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
-          echo "TEST=foobar" >> $GITHUB_ENV
+          sha=${{ github.sha }}"
+          artifact='laundary_dash.tfplan'
+          echo "NOW=$(date +'%Y%m%d%H%M%S%3N')" >> $GITHUB_ENV
+          echo "SHORT_SHA=$(echo $sha | cut -c 1-5)" >> $GITHUB_ENV
+          echo "PUBLISHED_ARTIFACT_NAME=$(echo $NOW-$SHORT_SHA_$artifact)" >> $GITHUB_ENV
+
+          echo "NOW=$NOW"
+          echo "SHA=$SHORT_SHA"
+          echo "ARTIFACT=$PUBLISHED_ARTIFACT_NAME"
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
@@ -39,9 +44,6 @@ jobs:
 
       - name: Setup Terraform Workspace
         run: |
-          echo "TEST=$TEST"
-          echo "NOW=$NOW"
-
           cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
           terraform version
           terraform init
@@ -54,7 +56,7 @@ jobs:
           cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
           terraform plan \
             -var-file=./configurations/prod.tfvars \
-            -out=${{ env.ARTIFACT_NAME }}
+            -out=${{ env.PUBLISHED_ARTIFACT_NAME }}
           exit $?
         env:
           TF_VAR_TF_NR_ACCOUNT: ${{ secrets.TF_NR_ACCOUNT }}
@@ -64,8 +66,8 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: actions/upload-artifact@v3
         with:
-          name: laundry-dash-official
-          path: ${{ github.workspace }}/terraform/stacks/dash-endpoints/${{ env.ARTIFACT_NAME }}
+          name: ${{ env.NOW }}-${{ env.SHORT_SHA }}-laundry-dash
+          path: ${{ github.workspace }}/terraform/stacks/dash-endpoints/${{ env.PUBLISHED_ARTIFACT_NAME }}
 
   deploy-dashboard:
     if: ${{ github.ref == 'refs/heads/main' }}
@@ -90,11 +92,12 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v3
         with:
-          name: laundry-dash-official
+          name: ${{ env.NOW }}-${{ env.SHORT_SHA }}-laundry-dash
           path: ${{ github.workspace }}/terraform/stacks/dash-endpoints/
 
       - name: Deploy
         run: |
+          ls -1
           cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
-          terraform apply ${{ env.ARTIFACT_NAME }}
+          terraform apply ${{ env.PUBLISHED_ARTIFACT_NAME }}
           exit $?
