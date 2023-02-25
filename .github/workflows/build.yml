@@ -57,7 +57,7 @@ jobs:
           terraform plan \
             -var-file=./configurations/prod.tfvars \
             -var 'nr_account_id=${{ secrets.TF_NR_ACCOUNT }}' \
-            -var 'nr_api_key=${{ secrets.TF_NR_API_KEY }}'' \
+            -var 'nr_api_key=${{ secrets.TF_NR_API_KEY }}' \
             -out=${{ env.PUBLISHED_ARTIFACT_NAME }}
           exit $?
         env:
