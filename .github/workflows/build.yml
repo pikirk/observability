@@ -22,7 +22,6 @@ jobs:
           echo "NOW=$(date +'%Y%m%d%H%M%S%3N')" >> $GITHUB_ENV
           echo "SHORT_SHA=$(echo $sha | cut -c 1-5)" >> $GITHUB_ENV
           echo "PUBLISHED_ARTIFACT_NAME=$(echo $NOW-$SHORT_SHA_$artifact)" >> $GITHUB_ENV
-
           echo "NOW=$NOW"
           echo "SHA=$SHORT_SHA"
           echo "ARTIFACT=$PUBLISHED_ARTIFACT_NAME"
