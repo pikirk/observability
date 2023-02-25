@@ -24,7 +24,7 @@ jobs:
       - name: Set Artifact Name
         run: |
           artifact='laundary_dash.tfplan'
-          echo "PUBLISHED_ARTIFACT_NAME=$(echo ${{ env.NOW }}-{{ env.SHORT_SHA }}_$artifact)" >> $GITHUB_ENV   
+          echo "PUBLISHED_ARTIFACT_NAME=$(echo ${{ env.NOW }}-${{ env.SHORT_SHA }}_$artifact)" >> $GITHUB_ENV   
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
