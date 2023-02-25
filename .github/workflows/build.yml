@@ -50,9 +50,10 @@ jobs:
       - name: Terraform Plan
         run: |
           cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
+          echo "Publish artifact name is '$PUBLISHED_ARTIFACT_NAME'"
           terraform plan \
             -var-file=./configurations/prod.tfvars \
-            -out=${{ env.PUBLISHED_ARTIFACT_NAME }}
+            -out=$PUBLISHED_ARTIFACT_NAME
           exit $?
         env:
           TF_VAR_TF_NR_ACCOUNT: ${{ secrets.TF_NR_ACCOUNT }}
@@ -60,8 +61,6 @@ jobs:
 
       - name: Push Artifacts
         if: ${{ github.ref == 'refs/heads/main' }}
-        run: |
-         echo "Publishing artifact $PUBLISHED_ARTIFACT_NAME"
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.NOW }}-${{ env.SHORT_SHA }}-laundry-dash
@@ -87,9 +86,11 @@ jobs:
           terraform workspace select prod
           terraform workspace list
 
-      - name: Download Artifacts
+      - name: Prepare Download
         run: |
-          echo "Dowloading artifact $PUBLISHED_ARTIFACT_NAME"
+          echo "Download artifact us '$PUBLISHED_ARTIFACT_NAME'"
+
+      - name: Download Artifacts
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.NOW }}-${{ env.SHORT_SHA }}-laundry-dash
@@ -99,5 +100,5 @@ jobs:
         run: |
           ls -1
           cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
-          terraform apply ${{ env.PUBLISHED_ARTIFACT_NAME }}
+          terraform apply $PUBLISHED_ARTIFACT_NAME
           exit $?
