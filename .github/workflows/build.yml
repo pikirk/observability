@@ -70,7 +70,7 @@ jobs:
           path: ${{ github.workspace }}/terraform/stacks/dash-endpoints/${{ env.PUBLISHED_ARTIFACT_NAME }}
 
       - name: Deploy
-        if ${{ github.ref == 'refs/heads/main' }}
+        if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
           terraform apply ${{ env.PUBLISHED_ARTIFACT_NAME }}
