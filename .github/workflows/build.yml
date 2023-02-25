@@ -20,11 +20,8 @@ jobs:
           sha=${{ github.sha }}
           artifact='laundary_dash.tfplan'
           echo "NOW=$(date +'%Y%m%d%H%M%S%3N')" >> $GITHUB_ENV
-          echo "SHORT_SHA=$(echo $sha | cut -c 1-5)" >> $GITHUB_ENV
+          echo "SHORT_SHA=$(echo $sha | cut -c 1-7)" >> $GITHUB_ENV
           echo "PUBLISHED_ARTIFACT_NAME=$(echo $NOW-$SHORT_SHA_$artifact)" >> $GITHUB_ENV
-          echo "NOW=$NOW"
-          echo "SHA=$SHORT_SHA"
-          echo "ARTIFACT=$PUBLISHED_ARTIFACT_NAME"
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
@@ -63,6 +60,8 @@ jobs:
 
       - name: Push Artifacts
         if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+         echo "Publishing artifact $PUBLISHED_ARTIFACT_NAME"
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.NOW }}-${{ env.SHORT_SHA }}-laundry-dash
@@ -89,6 +88,8 @@ jobs:
           terraform workspace list
 
       - name: Download Artifacts
+        run: |
+          echo "Dowloading artifact $PUBLISHED_ARTIFACT_NAME"
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.NOW }}-${{ env.SHORT_SHA }}-laundry-dash
