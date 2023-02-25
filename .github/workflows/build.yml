@@ -17,7 +17,7 @@ jobs:
   
       - name: Set Build Metadata
         run: |
-          sha=${{ github.sha }}"
+          sha=${{ github.sha }}
           artifact='laundary_dash.tfplan'
           echo "NOW=$(date +'%Y%m%d%H%M%S%3N')" >> $GITHUB_ENV
           echo "SHORT_SHA=$(echo $sha | cut -c 1-5)" >> $GITHUB_ENV
