@@ -69,45 +69,9 @@ jobs:
           name: ${{ env.PUBLISHED_ARTIFACT_NAME }}
           path: ${{ github.workspace }}/terraform/stacks/dash-endpoints/${{ env.PUBLISHED_ARTIFACT_NAME }}
 
-  deploy-dashboard:
-    if: ${{ github.ref == 'refs/heads/main' }}
-    needs: build-dashboard
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install Terraform
-        uses: hashicorp/setup-terraform@v2  
-
-      - name: Setup Terraform Workspace
-        run: |
-          cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
-          terraform version
-          terraform init
-          terraform workspace new prod
-          terraform workspace select prod
-          terraform workspace list
-
-      - name: Prepare Download
-        run: |
-          echo "Download artifact is '${{ env.PUBLISHED_ARTIFACT_NAME }}'"
-
-      - name: Download Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ env.PUBLISHED_ARTIFACT_NAME }}
-          path: ${{ github.workspace }}/terraform/stacks/dash-endpoints/
-
       - name: Deploy
+        ${{ github.ref == 'refs/heads/main' }}
         run: |
           cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/
-          pwd
-          ls -lauHF
-
-          cd ${{ github.workspace }}/terraform/stacks/dash-endpoints/${{ env.PUBLISHED_ARTIFACT_NAME }}/
-          pwd
-          ls -lauHF
-
-          # terraform apply ${{ env.PUBLISHED_ARTIFACT_NAME }}
-          exit $?
+          terraform apply ${{ env.PUBLISHED_ARTIFACT_NAME }}
+          exit $? 
