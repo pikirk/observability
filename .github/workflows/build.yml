@@ -59,8 +59,8 @@ jobs:
             -out=${{ env.PUBLISHED_ARTIFACT_NAME }}
           exit $?
         env:
-          TF_VAR_TF_NR_ACCOUNT: ${{ secrets.TF_NR_ACCOUNT }}
-          TF_VAR_TF_NR_API_KEY: ${{ secrets.TF_NR_API_KEY }}
+          TF_VAR_nr_account_id: ${{ secrets.TF_NR_ACCOUNT }}
+          TF_VAR_nr_api_key: ${{ secrets.TF_NR_API_KEY }}
 
       - name: Push Artifacts
         if: ${{ github.ref == 'refs/heads/main' }}
