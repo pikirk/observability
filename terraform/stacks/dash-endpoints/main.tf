@@ -41,7 +41,6 @@ resource "newrelic_one_dashboard" "dash_api_prod" {
 
 # tag the version
 data "newrelic_entity" "dashboard" {
-  domain      = "APM"
   ignore_case = true
   name        = "Laundry Dash Monitoring (PROD)"
   type        = "DASHBOARD"
