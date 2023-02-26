@@ -50,6 +50,6 @@ resource "newrelic_entity_tags" "version" {
   guid = data.newrelic_entity.dashboard.guid
   tag {
     key    = "BUILD_VERSION"
-    values = [var.dash_build_version]
+    values = [var.nr_dash_build_version]
   }
 }
