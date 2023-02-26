@@ -1,5 +1,5 @@
 name: observability-dashboard-newrelic
-run-name: Dashboard build ${{github.run_number}}
+run-name: Dashboard build
 on: [push]
 
 # values set in Set Build Metadata step   
