@@ -25,7 +25,7 @@ jobs:
       - name: Set Artifact Name
         run: |
           artifact='laundary_dash.tfplan'
-          build_version = ${{ env.NOW }}-${{ env.SHORT_SHA }}
+          build_version=${{ env.NOW }}-${{ env.SHORT_SHA }}
           echo "BUILD_VERSION=$(echo $build_version)" >> $GITHUB_ENV
           echo "PUBLISHED_ARTIFACT_NAME=$(echo $build_version_$artifact)" >> $GITHUB_ENV   
 
