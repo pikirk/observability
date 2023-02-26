@@ -52,4 +52,8 @@ resource "newrelic_entity_tags" "version" {
     key    = "BUILD_VERSION"
     values = [var.nr_dash_build_version]
   }
+  tag {
+    key    = "BUILD_NAME"
+    values = [var.nr_dash_build_name]
+  }
 }

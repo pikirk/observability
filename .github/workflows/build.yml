@@ -1,5 +1,5 @@
 name: observability-dashboard-newrelic
-run-name: Dashboard build - ${{ github.actor }}
+run-name: Dashboard build ${{github.run_number}}
 on: [push]
 
 # values set in Set Build Metadata step   
@@ -62,6 +62,7 @@ jobs:
             -var 'nr_account_id=${{ secrets.TF_NR_ACCOUNT }}' \
             -var 'nr_api_key=${{ secrets.TF_NR_API_KEY }}' \
             -var 'nr_dash_build_version=${{ env.BUILD_VERSION }}' \
+            -var 'nr_dash_build_name=Dashboard build ${{github.run_number}}'
             -out=${{ env.PUBLISHED_ARTIFACT_NAME }}
           exit $?
 

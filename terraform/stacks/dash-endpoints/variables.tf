@@ -17,3 +17,8 @@ variable "nr_dash_build_version" {
   description = "Our dashboard build_version"
   default     = ""
 }
+variable "nr_dash_build_name" {
+  type        = string
+  description = "Name of gitbhub build"
+  default     = ""
+}
